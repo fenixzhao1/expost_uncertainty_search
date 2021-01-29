@@ -33,8 +33,8 @@ solution_ante = function(theta, vh, vl, c){
 
 # set up parameters
 vh = 100
-vl = 10
-c = 10
+vl = 70
+c = 5
 
 df = data.frame(
   aversion_parameter = seq(from=-3, to=0.99, by=0.01),
