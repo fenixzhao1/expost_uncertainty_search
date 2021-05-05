@@ -54,7 +54,7 @@ solution_c = function(theta, vh, vl, c){
     
     # calculate LHS of the equation and find the value closest to 0
     z = seq(from=0, to=1, by=0.001)
-    phi1 = (vh*z+vl*(1-z)-c)^(1-theta) - 2 + z + (vh-c)^(2-theta)/((2-theta)*(vh-vl))
+    phi1 = (vh*z+vl*(1-z)-c)^(1-theta)*z + (vh-c)^(2-theta)/((2-theta)*(vh-vl))
     phi2 = -(vh*z+vl*(1-z)-c)^(2-theta)/((2-theta)*(vh-vl)) - (vh*z+vl*(1-z))^(1-theta)
     phi = phi1 + phi2
     dist = abs(phi)
@@ -73,14 +73,14 @@ solution_c = function(theta, vh, vl, c){
 
 ##### Reservation prob vs risk preference #####
 # set up parameters
-vh = 1000
+vh = 500
 vl = 100
 c = 5
 alpha = 0
 beta = 1
 
 df = data.frame(
-  theta = seq(from=0, to=5, by=0.01)
+  theta = seq(from=-3, to=3, by=0.01)
 )
 
 for (i in 1:length(df$theta)){
@@ -103,7 +103,7 @@ for (i in 1:length(df$theta)){
 }
 
 # graph the relation between risk aversion parameter and reservation price
-title = paste('compare_positive', 'v_H', as.character(vh), 'v_L', as.character(vl),
+title = paste('compare', 'v_H', as.character(vh), 'v_L', as.character(vl),
               'c', as.character(c), sep = ' ')
 file = paste("D:/Dropbox/Working Papers/Expost Uncertainty in Searching and Ranking/data/", title, sep = "")
 file = paste(file, ".png", sep = "")
@@ -112,8 +112,8 @@ png(file, width = 600, height = 400)
 pic = ggplot(data = df) +
   geom_line(aes(x=theta, y=prob, colour = 'blue')) +
   geom_line(aes(x=theta, y=prob_c, colour = 'red')) +
-  scale_x_discrete(name='CRRA parameter', waiver(), limits=c(0,0.5,1,1.5,2,3)) +
-  scale_y_continuous(name='reservation prob', limits=c(0.4,1)) +
+  scale_x_discrete(name='CRRA parameter', waiver(), limits=c(-3,-1,0,1,3)) +
+  scale_y_continuous(name='reservation prob', limits=c(0.5,1)) +
   ggtitle(title) + 
   theme_bw() + 
   scale_colour_manual(values=c('blue', 'red'), labels=c('uncertainty', 'certainty')) +
